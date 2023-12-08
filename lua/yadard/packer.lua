@@ -24,6 +24,13 @@ return require('packer').startup(function(use)
   use('tpope/vim-fugitive')
   use('williamboman/mason.nvim')
   use('williamboman/mason-lspconfig.nvim')
+  use('ldelossa/nvim-dap-projects')
+  use('jose-elias-alvarez/null-ls.nvim')
+
+  use('neovim/nvim-lspconfig')
+
+  use{'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'}}
+  use('theHamsta/nvim-dap-virtual-text')
 
   use {
   'VonHeikemen/lsp-zero.nvim',
