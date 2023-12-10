@@ -84,6 +84,16 @@ _G.packer_plugins = {
     path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  fzf = {
+    loaded = true,
+    path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\fzf",
+    url = "https://github.com/junegunn/fzf"
+  },
+  ["fzf.vim"] = {
+    loaded = true,
+    path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\fzf.vim",
+    url = "https://github.com/junegunn/fzf.vim"
+  },
   harpoon = {
     loaded = true,
     path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\harpoon",
@@ -138,6 +148,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-lspfuzzy"] = {
+    loaded = true,
+    path = "C:\\Users\\USER\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-lspfuzzy",
+    url = "https://github.com/ojroques/nvim-lspfuzzy"
   },
   ["nvim-treesitter"] = {
     loaded = true,
