@@ -26,9 +26,9 @@ end
 
 vim.keymap.set("n", "<leader>dt", dapui.toggle)
 vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
-vim.keymap.set("n", "<S-k>", dap.step_out)
-vim.keymap.set("n", "<S-l>", dap.step_into)
-vim.keymap.set("n", "<S-j>", dap.step_over)
+vim.keymap.set("n", "<S-,>", dap.step_out)
+vim.keymap.set("n", "<S-.>", dap.step_into)
+vim.keymap.set("n", "<S-;>", dap.step_over)
 vim.keymap.set("n", "<leader>dn", dap.continue)
 vim.keymap.set("n", "<leader>dx", dap.stop)
 vim.keymap.set("n", "<leader>d_", dap.run_last)
