@@ -15,22 +15,22 @@ dap.set_log_level("DEBUG")
 --}
 
 dap.listeners.after.event_initialized['dapui_config'] = function()
-    dapui.open()
+	dapui.open()
 end
 dap.listeners.after.event_terminated['dapui_config'] = function()
-    dapui.close()
+	dapui.close()
 end
 dap.listeners.after.event_exited['dapui_config'] = function()
-    dapui.close()
+	dapui.close()
 end
 
 vim.keymap.set("n", "<leader>dt", dapui.toggle)
-vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
-vim.keymap.set("n", "<S-,>", dap.step_out)
-vim.keymap.set("n", "<S-.>", dap.step_into)
-vim.keymap.set("n", "<S-;>", dap.step_over)
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
+vim.keymap.set("n", "<leader>dl", dap.step_out)
+vim.keymap.set("n", "<leader>dk", dap.step_into)
+vim.keymap.set("n", "<leader>dj", dap.step_over)
 vim.keymap.set("n", "<leader>dn", dap.continue)
-vim.keymap.set("n", "<leader>dx", dap.stop)
+vim.keymap.set("n", "<leader>dx", dap.close)
 vim.keymap.set("n", "<leader>d_", dap.run_last)
 -- vim.keymap.set("n", "<leader>dr", dap.repl.open({}, "vsplit"))
 -- :sovim.keymap.set("n", "<leader>di", uivar.hover(function() return vim.fn.expand("<cexpr>") end))
