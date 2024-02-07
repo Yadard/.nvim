@@ -5,7 +5,10 @@ lsp_zero.on_attach(function(client, bufnr)
     lsp_zero.buffer_autoformat()
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+<<<<<<< HEAD
     vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
+=======
+>>>>>>> 41acfc58362b52dd8bdafaa3e536cd684d6dcf32
     vim.keymap.set("n", "Ç", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
@@ -117,4 +120,7 @@ cmp.setup({
     }),
 })
 
+<<<<<<< HEAD
+=======
 require('lspfuzzy').setup {}
+>>>>>>> 41acfc58362b52dd8bdafaa3e536cd684d6dcf32
