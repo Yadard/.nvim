@@ -12,10 +12,7 @@ return require('packer').startup(function(use)
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.5',
-		requires = {
-			{ 'nvim-lua/plenary.nvim' },
-			{ 'sharkdp/fd' }
-		}
+		requires = { { 'nvim-lua/plenary.nvim' } }
 	}
 
 	use({ 'rose-pine/neovim', as = 'rose-pine' })
@@ -23,26 +20,19 @@ return require('packer').startup(function(use)
 	use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
 	use('nvim-treesitter/playground')
 	use('theprimeagen/harpoon')
+	use('ThePrimeagen/vim-be-good')
+
 	use('mbbill/undotree')
 	use('tpope/vim-fugitive')
-	use('lewis6991/gitsigns.nvim')
 	use('williamboman/mason.nvim')
 	use('williamboman/mason-lspconfig.nvim')
 	use('ldelossa/nvim-dap-projects')
 	use('jose-elias-alvarez/null-ls.nvim')
 
 	use('neovim/nvim-lspconfig')
-	use('theprimeagen/vim-be-good')
-	use {
-		'numToStr/Comment.nvim',
-		config = function()
-			require('Comment').setup()
-		end
-	}
 
 	use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
 	use('theHamsta/nvim-dap-virtual-text')
-	use('dstein64/vim-startuptime')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
@@ -57,14 +47,7 @@ return require('packer').startup(function(use)
 			-- Autocompletion
 			{ 'hrsh7th/nvim-cmp' },
 			{ 'hrsh7th/cmp-nvim-lsp' },
-			{
-				"L3MON4D3/LuaSnip",
-				-- follow latest release.
-				tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-				-- install jsregexp (optional!:).
-				run = "make install_jsregexp"
-			},
-			{ 'nvim-neotest/nvim-nio' }
+			{ 'L3MON4D3/LuaSnip' },
 		}
 	}
 end)

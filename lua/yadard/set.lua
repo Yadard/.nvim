@@ -15,7 +15,13 @@ vim.opt.smartindent = true
 
 vim.opt.swapfile = false;
 vim.opt.backup = false;
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+
+local OS = vim.loop.os_uname().sysname
+if (OS == 'Linux') then
+    vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+elseif (OS:find 'Windows') then
+    vim.opt.undodir = os.getenv("USERPROFILE") .. "/.vim/undodir"
+end
 vim.opt.undofile = true;
 
 vim.opt.hlsearch = false;
@@ -25,7 +31,7 @@ vim.opt.termguicolors = true;
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
-vim.opt.isfname: append("@-@")
+vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 

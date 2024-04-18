@@ -11,6 +11,12 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever
+
+-- local OS = vim.loop.os_uname().sysname
+-- if (OS:find 'Windows') then
+--     vim.notify("Windows machine")
+-- end
+vim.keymap.set("x", "<leader>P", "+p")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
