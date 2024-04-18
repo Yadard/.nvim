@@ -1,6 +1,11 @@
 local dapui = require('dapui')
 dapui.setup()
 
+require('nvim-dap-virtual-text').setup {
+	-- Your custom settings here, for example:
+	commented = true,
+}
+
 
 local dap = require('dap')
 local uivar = require('dap.ui.widgets')

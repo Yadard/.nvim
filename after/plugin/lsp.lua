@@ -3,7 +3,7 @@ local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 	lsp_zero.buffer_autoformat()
-
+	vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
 	vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
 	vim.keymap.set("n", "Ç", function() vim.lsp.buf.hover() end, opts)
 	vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -44,59 +44,6 @@ require('mason-lspconfig').setup({
 		end,
 	}
 })
-
-local path = {}
-
-path.path_separator = "/"
-path.is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win32unix") == 1
-if path.is_windows == true then
-	path.path_separator = "\\"
-end
-
-path.path_join = function(...)
-	local args = { ... }
-	if #args == 0 then
-		return ""
-	end
-
-	local all_parts = {}
-	if type(args[1]) == "string" and args[1]:sub(1, 1) == path.path_separator then
-		all_parts[1] = ""
-	end
-
-	for _, arg in ipairs(args) do
-		arg_parts = path.split(arg, M.path_separator)
-		vim.list_extend(all_parts, arg_parts)
-	end
-	return table.concat(all_parts, path.path_separator)
-end
-
-local DEFAULT_FQBN = "arduino:avr:uno"
-
-
-local lspconfig = require('lspconfig')
-lspconfig.arduino_language_server.setup {
-	on_new_config = function(config, root_dir)
-		local p = root_dir .. "/.arduino"
-		local f = io.open(p, 'r')
-		vim.notify(("%q, %q"):format(p, f == nil))
-
-		if f == nil then
-			vim.notify(("Could not find which FQBN to use in %q. Defaulting to %q."):format(p, DEFAULT_FQBN))
-			fqbn = DEFAULT_FQBN
-		else
-			fqbn = io.read(p)
-			vim.notify(("Could find which FQBN to use in %q. Using to %q."):format(p, fqbn))
-			io.close(f)
-		end
-		config.cmd = {
-			"arduino-language-server",
-			"-cli-config", "~/.config/Arduino/arduino-cli.yaml",
-			"-fqbn",
-			fqbn
-		}
-	end
-}
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }

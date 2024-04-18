@@ -12,7 +12,10 @@ return require('packer').startup(function(use)
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.5',
-		requires = { { 'nvim-lua/plenary.nvim' } }
+		requires = {
+			{ 'nvim-lua/plenary.nvim' },
+			{ 'sharkdp/fd' }
+		}
 	}
 
 	use({ 'rose-pine/neovim', as = 'rose-pine' })
@@ -22,6 +25,7 @@ return require('packer').startup(function(use)
 	use('theprimeagen/harpoon')
 	use('mbbill/undotree')
 	use('tpope/vim-fugitive')
+	use('lewis6991/gitsigns.nvim')
 	use('williamboman/mason.nvim')
 	use('williamboman/mason-lspconfig.nvim')
 	use('ldelossa/nvim-dap-projects')
@@ -38,6 +42,7 @@ return require('packer').startup(function(use)
 
 	use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
 	use('theHamsta/nvim-dap-virtual-text')
+	use('dstein64/vim-startuptime')
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',
@@ -52,7 +57,14 @@ return require('packer').startup(function(use)
 			-- Autocompletion
 			{ 'hrsh7th/nvim-cmp' },
 			{ 'hrsh7th/cmp-nvim-lsp' },
-			{ 'L3MON4D3/LuaSnip' },
+			{
+				"L3MON4D3/LuaSnip",
+				-- follow latest release.
+				tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+				-- install jsregexp (optional!:).
+				run = "make install_jsregexp"
+			},
+			{ 'nvim-neotest/nvim-nio' }
 		}
 	}
 end)
