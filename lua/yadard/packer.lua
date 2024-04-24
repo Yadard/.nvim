@@ -31,7 +31,12 @@ return require('packer').startup(function(use)
 
 	use('neovim/nvim-lspconfig')
 
-	use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
+	use { 'rcarriga/nvim-dap-ui',
+		requires = {
+			'mfussenegger/nvim-dap',
+			'nvim-neotest/nvim-nio'
+		}
+	}
 	use('theHamsta/nvim-dap-virtual-text')
 
 	use {
@@ -50,4 +55,6 @@ return require('packer').startup(function(use)
 			{ 'L3MON4D3/LuaSnip' },
 		}
 	}
+	use('lewis6991/gitsigns.nvim')
+	use('ojroques/nvim-lspfuzzy')
 end)
