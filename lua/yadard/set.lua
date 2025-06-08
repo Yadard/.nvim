@@ -18,9 +18,9 @@ vim.opt.backup = false;
 
 local OS = vim.loop.os_uname().sysname
 if (OS == 'Linux') then
-    vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+	vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 elseif (OS:find 'Windows') then
-    vim.opt.undodir = os.getenv("USERPROFILE") .. "/.vim/undodir"
+	vim.opt.undodir = os.getenv("USERPROFILE") .. "/.vim/undodir"
 end
 vim.opt.undofile = true;
 
