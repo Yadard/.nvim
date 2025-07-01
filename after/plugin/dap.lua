@@ -238,10 +238,11 @@ local function dump_dap_config_as_default()
 local dap = require('dap')
 dap.adapters = %s
 
+DAP_PRE_LAUNCH_TASK = %s 
 -- This table holds all named debug configurations for the project.
 -- The 'default' label is special: it will be loaded automatically on startup.
 PROJECT_DAP_CONFIGS = %s
-]], os.date(), adapters_string, project_configs_string)
+]], os.date(), adapters_string, DAP_PRE_LAUNCH_TASK, project_configs_string)
 
 	-- 6. Define paths and write the file
 	local cwd = vim.fn.getcwd()

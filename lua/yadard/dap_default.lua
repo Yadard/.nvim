@@ -46,9 +46,7 @@ dap.configurations.c = {
 		request = "launch",
 
 		-- This function will run before launching, asking for the executable path.
-		program = function()
-			return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-		end,
+		program = "${workspaceFolder}/a.out",
 
 		cwd = '${workspaceFolder}',
 		stopOnEntry = false,
