@@ -76,43 +76,56 @@ end
 DAP_PRE_LAUNCH_TASK = nil
 
 ---
--- A universal "launch" function that is highly flexible.
+-- A universal and ASYNCHRONOUS "launch" function.
 -- 1. Skips the build step if _G.DAP_PRE_LAUNCH_TASK is nil or an empty string.
 -- 2. Accepts an optional 'on_success' callback function to run.
 --    If no callback is provided, it defaults to `dap.continue()`.
+-- 3. The build process runs in the background without freezing the editor.
 --
 -- @param on_success_callback function (optional) The function to call after a
---        successful build or when skipping the build.
+--      successful build or when skipping the build.
 function build_and_debug(on_success_callback)
-	-- Define the default action if no callback is provided.
 	local on_success = on_success_callback or function()
 		require('dap').continue()
 	end
 
 	local build_command = _G.DAP_PRE_LAUNCH_TASK
 
-	-- Check if we should skip the build step.
 	if not build_command or build_command == "" then
 		vim.notify("No pre-launch task specified. Starting debugger directly...", vim.log.levels.INFO, { title = "DAP" })
-		-- If skipping, just run the success callback immediately.
 		on_success()
 		return
 	end
 
-	-- If a build command was found, execute it.
 	vim.notify("🚀 Running pre-launch task: " .. build_command, vim.log.levels.INFO, { title = "Pre-Launch Task" })
-	local output = vim.fn.system(build_command)
 
-	if vim.v.shell_error == 0 then
-		vim.notify("✅ Task successful! Launching debugger...", vim.log.levels.INFO, { title = "Pre-Launch Task" })
-		-- On successful build, run the success callback.
-		on_success()
-	else
-		vim.notify("❌ Task FAILED! Debugger not launched.", vim.log.levels.ERROR, { title = "Pre-Launch Task" })
-		print("==================== TASK FAILED ====================")
-		print(output)
-		print("=====================================================")
-	end
+	local output_buffer = {}
+
+	vim.fn.jobstart(vim.split(build_command, " "), {
+		on_stdout = function(_, data)
+			if data then table.insert(output_buffer, table.concat(data, "\n")) end
+		end,
+		on_stderr = function(_, data)
+			if data then table.insert(output_buffer, table.concat(data, "\n")) end
+		end,
+		on_exit = function(_, exit_code)
+			vim.schedule(function()
+				if exit_code == 0 then
+					vim.notify("✅ Task successful! Launching debugger...", vim.log.levels.INFO, { title = "Pre-Launch Task" })
+					on_success()
+				else
+					vim.notify(
+						"❌ Task FAILED! Debugger not launched. Exit code: " .. exit_code,
+						vim.log.levels.ERROR,
+						{ title = "Pre-Launch Task" }
+					)
+					print("==================== TASK FAILED ====================")
+					print(table.concat(output_buffer, "\n"))
+					print("=====================================================")
+				end
+			end)
+		end,
+	})
 end
 
 -- UI & Session Control -------------------------------------------------------
@@ -160,6 +173,63 @@ vim.keymap.set("n", "<leader>d?", function()
 	require("dapui").eval()
 end, { desc = "DAP UI: Evaluate Expression" })
 
+local function delete_all_breakpoints()
+    local dap = require('dap')
+    -- A função clear_breakpoints() sem argumentos remove todos os breakpoints
+    dap.clear_breakpoints()
+    vim.notify("[DAP] All breakpoints have been deleted.", vim.log.levels.INFO)
+end
+
+local function toggle_all_breakpoints()
+    local dap = require('dap')
+    local breakpoints = dap.breakpoints()
+
+    -- Verifica se existem breakpoints para evitar erros
+    if not next(breakpoints) then
+        vim.notify("[DAP] No breakpoints to toggle.", vim.log.levels.WARN)
+        return
+    end
+
+    -- Determina se vamos habilitar ou desabilitar
+    -- Olhamos para o primeiro breakpoint que encontrarmos para decidir a ação global
+    local should_enable = false
+    for _, file_bps in pairs(breakpoints) do
+        for _, line_bps in pairs(file_bps) do
+            for _, bp in ipairs(line_bps) do
+                if bp.disabled then
+                    should_enable = true
+                end
+                goto found_first_bp -- Sai dos loops assim que encontrarmos o primeiro
+            end
+        end
+    end
+    ::found_first_bp::
+
+    -- Aplica a ação para cada arquivo que tem breakpoints
+    for path, _ in pairs(breakpoints) do
+        if should_enable then
+            dap.enable_breakpoints(path)
+        else
+            dap.disable_breakpoints(path)
+        end
+    end
+
+    if should_enable then
+        vim.notify("[DAP] All breakpoints ENABLED.", vim.log.levels.INFO)
+    else
+        vim.notify("[DAP] All breakpoints DISABLED.", vim.log.levels.INFO)
+    end
+end
+
+vim.keymap.set("n", "<leader>dC", delete_all_breakpoints, { desc = "DAP: Clear All Breakpoints" })
+vim.keymap.set("n", "<leader>dT", toggle_all_breakpoints, { desc = "DAP: Toggle All Breakpoints" })
+
+vim.keymap.set("n", "<leader>dp", function()
+    require("telescope.builtin").dap_breakpoints()
+end, { desc = "DAP: List/Find Breakpoints" })
+
+-- [[ FIM DO NOVO CÓDIGO ]]
+
 -- Hover Information ----------------------------------------------------------
 
 vim.keymap.set("n", "<leader>di", function() require("dap.ui.widgets").hover() end, { desc = "DAP UI: Hover Variable" })
@@ -186,6 +256,8 @@ end, { desc = "DAP: Set Conditional Breakpoint" })
 vim.keymap.set('n', '<F10>', function() dap.step_over() end, { desc = "DAP: Step Over" })
 vim.keymap.set('n', '<F11>', function() dap.step_into() end, { desc = "DAP: Step Into" })
 vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = "DAP: Step Out" })
+
+
 
 
 -- =============================================================================

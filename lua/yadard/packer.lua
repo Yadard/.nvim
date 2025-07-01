@@ -65,4 +65,27 @@ return require('packer').startup(function(use)
 	use 'jay-babu/mason-nvim-dap.nvim'
 	use('lewis6991/gitsigns.nvim')
 	use('ojroques/nvim-lspfuzzy')
+	use {
+		'mg979/vim-visual-multi',
+		config = function()
+			-- Desabilitar os mapeamentos padrão se você quiser criar todos os seus
+			-- vim.g.VM_default_mappings = 0
+
+			-- Definir um líder de atalhos para o plugin no modo Visual Multi
+			-- Padrão é '\'. Usaremos a tecla de espaço que é comum no Neovim.
+			vim.g.VM_leader = '<Space>'
+
+			-- Mapeamentos de atalhos personalizados (Exemplos)
+			-- Estes são apenas exemplos, você pode definir como preferir.
+			-- O plugin já vem com atalhos padrão que são muito bons.
+			-- Recomendo começar com os padrões antes de mapear tudo.
+
+			-- Exemplo de como destacar os cursores e as seleções
+			vim.cmd [[
+			highlight VisualMultiCursor ctermfg=black ctermbg=yellow guifg=black guibg=yellow
+			highlight VisualMultiSearch ctermfg=black ctermbg=lightblue guifg=black guibg=lightblue
+			]]
+		end
+	}
+
 end)
